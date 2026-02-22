@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlastScope V2 - AI Code Impact</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.23.0/cytoscape.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body data-report-id="{{ report_id if report_id else '' }}">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">🎯</span>
+                    <h1>BlastScope</h1>
+                </div>
+                <p class="subtitle" id="subtitleText">AI Code Blast Radius Analyzer</p>
+
+                <div id="shareBox" class="share-box" style="display: none;">
+                    <p>Share this report:</p>
+                    <input type="text" id="shareLink" readonly>
+                    <button id="copyBtn" class="secondary-btn">Copy</button>
+                </div>
+            </div>
+
+            <div class="card form-card" id="formCard">
+                <h3>Analysis Configuration</h3>
+
+                <div class="form-group">
+                    <label for="repoPath">Repository Path</label>
+                    <input type="text" id="repoPath" value="sample_repo" placeholder="e.g. ./src">
+                </div>
+
+                <div class="form-group">
+                    <label for="nodeId">Target Component ID</label>
+                    <input type="text" id="nodeId" value="sample_repo.models.InvoiceDTO"
+                        placeholder="e.g. module.class.method">
+                </div>
+
+                <div class="form-group">
+                    <label for="changeIntent">Change Intent</label>
+                    <textarea id="changeIntent"
+                        rows="3">Adding 'status' enum to InvoiceDTO to track payment state.</textarea>
+                </div>
+
+                <button id="analyzeBtn" class="primary-btn">
+                    <span class="btn-text">Analyze Blast Radius</span>
+                    <div class="spinner" id="btnSpinner" style="display: none;"></div>
+                </button>
+            </div>
+
+            <div class="card results-card" id="resultsCard" style="display: none;">
+                <div class="results-header">
+                    <h3>Impact Report</h3>
+                    <span class="badge" id="impactCount">0 affected</span>
+                </div>
+                <div id="reportContent" class="report-content">
+                    <!-- Impact points injected here -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="workspace-header">
+                <h2 id="graphTitle">Dependency Graph</h2>
+                <div class="legend">
+                    <span class="legend-item"><span class="dot modified"></span> Modified</span>
+                    <span class="legend-item"><span class="dot direct"></span> Direct Impact</span>
+                    <span class="legend-item"><span class="dot indirect"></span> Indirect Impact</span>
+                    <span class="legend-item"><span class="dot safe"></span> Safe (Unaffected)</span>
+                </div>
+            </header>
+            <div id="cy" class="cy-container">
+                <div class="empty-state" id="emptyState">
+                    Configure and run analysis to populate graph.
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
+
+</html>
